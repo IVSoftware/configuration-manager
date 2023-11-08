@@ -132,7 +132,7 @@ After the configuration is already loaded, subscribe to the events this way inst
 **Save individual control changes**
 
 
-When changes occur, just serialize the dictionary. As written, it's not terribly efficient. Every keystroke in any textbox writes the entire file. So optimize by waiting for changes to settle and maybe writing the congig file asynchronously or even just doing it when the app closes.
+When changes occur, just serialize the dictionary. As written, it's not terribly efficient. Every keystroke in any textbox writes the entire file. So optimize by waiting for changes to settle and maybe writing the config file asynchronously or even just doing it when the app closes.
 
 ```
 
