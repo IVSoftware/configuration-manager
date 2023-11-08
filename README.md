@@ -28,19 +28,13 @@ ___
 **Loading the configuration from the Json file**
 
 ```
-    private void LoadConfiguration()
+private void LoadConfiguration()
+{
+    if (File.Exists(configPath))
     {
-        if (File.Exists(configPath))
-        {
-            ConfigurationHelper =
-                JsonConvert
-                .DeserializeObject<Dictionary<string, object>>(File.ReadAllText(configPath));
-        }
-        else
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(configPath));
-            ConfigurationHelper = new Dictionary<string, object>();
-        }
+        ConfigurationHelper =
+            JsonConvert
+            .DeserializeObject<Dictionary<string, object>>(File.ReadAllText(configPath));
         foreach (var key in ConfigurationHelper.Keys)
         {
             if (Controls[key] is Control control)
@@ -83,6 +77,12 @@ ___
             }
         }
     }
+    else
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(configPath));
+        ConfigurationHelper = new Dictionary<string, object>();
+    }
+}
 ```
 
 
@@ -132,7 +132,7 @@ After the configuration is already loaded, subscribe to the events this way inst
 **Save individual control changes**
 
 
-When changes occur, just serialize the dictionary. As written, it's not terribly efficient. Every keystroke in any textbox writes the entire file. So optimize by waiting for changes to settle and maybe writing the congif file asynchronously or even just doing it when the app closes.
+When changes occur, just serialize the dictionary. As written, it's not terribly efficient. Every keystroke in any textbox writes the entire file. So optimize by waiting for changes to settle and maybe writing the congig file asynchronously or even just doing it when the app closes.
 
 ```
 

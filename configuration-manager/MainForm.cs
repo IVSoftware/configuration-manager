@@ -32,52 +32,52 @@ namespace configuration_manager
                 ConfigurationHelper =
                     JsonConvert
                     .DeserializeObject<Dictionary<string, object>>(File.ReadAllText(configPath));
+                foreach (var key in ConfigurationHelper.Keys)
+                {
+                    if (Controls[key] is Control control)
+                    {
+                        if (control is TextBox textBox)
+                        {
+                            if (ConfigurationHelper.TryGetValue(key, out var value))
+                            {
+                                textBox.Text = value.ToString();
+                            }
+                        }
+                        else if (control is NumericUpDown numeric)
+                        {
+                            if (ConfigurationHelper.TryGetValue(key, out var o) && int.TryParse($"{o}", out int value))
+                            {
+                                numeric.Value = value;
+                            }
+                        }
+                        else if (control is ComboBox comboBox)
+                        {
+                            if (ConfigurationHelper.TryGetValue(key, out var o) && int.TryParse($"{o}", out int value))
+                            {
+                                comboBox.SelectedIndex = value;
+                            }
+                        }
+                        else if (control is TrackBar trackBar)
+                        {
+                            if (ConfigurationHelper.TryGetValue(key, out var o) && int.TryParse($"{o}", out int value))
+                            {
+                                trackBar.Value = value;
+                            }
+                        }
+                        else if (control is CheckBox checkBox)
+                        {
+                            if (ConfigurationHelper.TryGetValue(key, out var o) && bool.TryParse($"{o}", out bool value))
+                            {
+                                checkBox.Checked = value;
+                            }
+                        }
+                    }
+                }
             }
             else
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(configPath));
                 ConfigurationHelper = new Dictionary<string, object>();
-            }
-            foreach (var key in ConfigurationHelper.Keys)
-            {
-                if (Controls[key] is Control control)
-                {
-                    if (control is TextBox textBox)
-                    {
-                        if (ConfigurationHelper.TryGetValue(key, out var value))
-                        {
-                            textBox.Text = value.ToString();
-                        }
-                    }
-                    else if (control is NumericUpDown numeric)
-                    {
-                        if (ConfigurationHelper.TryGetValue(key, out var o) && int.TryParse($"{o}", out int value))
-                        {
-                            numeric.Value = value;
-                        }
-                    }
-                    else if (control is ComboBox comboBox)
-                    {
-                        if (ConfigurationHelper.TryGetValue(key, out var o) && int.TryParse($"{o}", out int value))
-                        {
-                            comboBox.SelectedIndex = value;
-                        }
-                    }
-                    else if (control is TrackBar trackBar)
-                    {
-                        if (ConfigurationHelper.TryGetValue(key, out var o) && int.TryParse($"{o}", out int value))
-                        {
-                            trackBar.Value = value;
-                        }
-                    }
-                    else if (control is CheckBox checkBox)
-                    {
-                        if (ConfigurationHelper.TryGetValue(key, out var o) && bool.TryParse($"{o}", out bool value))
-                        {
-                            checkBox.Checked = value;
-                        }
-                    }
-                }
             }
         }
         private void SubscribeToEvents()
