@@ -1,4 +1,4 @@
-Looking at your code, one thing that could explain the behavior is if events like TextBox.TextChanged are being subscribed to before InitializeComponent sets the _initial_ values, because then those initial (blank) values could be being saved into the configuration. I think your idea of writing a Json file to your AppSettings folder is a good one. And just to be on the safe side, try doing things in this order:
+Looking at your code, one thing that could explain the behavior is if, in `InitializeComponent`, events like `TextBox.TextChanged` are being subscribed to before that control's _initial_ value is set, because then those initial (blank) values could be being saved into the configuration and then when you load the configuration you get nothing. I think your idea of writing a Json file (to the user's AppData folder) is a good one. And just to be on the safe side, try doing things in this order:
 
 ```
 public partial class MainForm : Form
@@ -6,7 +6,9 @@ public partial class MainForm : Form
     string configPath { get; } =
         Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            Assembly.GetEntryAssembly().GetName().Name);
+            Assembly.GetEntryAssembly().GetName().Name,
+            "config.json"
+    );
     public MainForm()
     {
         InitializeComponent();
@@ -21,6 +23,7 @@ public partial class MainForm : Form
     .
 }
 ```
+___
 
 **Loading the configuration from the Json file**
 
@@ -82,9 +85,12 @@ public partial class MainForm : Form
     }
 ```
 
+
 **Subscribe to change events**
 
-Make sure that you go through the Designer.cs file and remove the lines that subscribe to control change events like `TextChanged` or `SelectionIndexChanged`. It's likely that these are the cause of the problem. After the configuration is already loaded, subscribe to the events this way instead:
+Make sure that you go through the Designer.cs file. Either remove the existing handlers for control change events like `TextChanged` or `SelectionIndexChanged` entirely, _or_ at least go through those handlers making sure they don't do any writing to the configuration file. There's a real possibility that these can cause a race condition that could contribute to the problem you're seeing. *To be clear, it's perfectly ok to subscribe to an event multiple times to multiple handlers. If you choose to leave the existing handlers in place, don't let them write to your `SaveConfiguration` method.*
+___
+After the configuration is already loaded, subscribe to the events this way instead:
 
 ```
     private void SubscribeToEvents()
@@ -93,38 +99,35 @@ Make sure that you go through the Designer.cs file and remove the lines that sub
         {
             if (control is TextBox textBox)
             {
-                textBox.TextChanged += (sender, e) => SaveConfiguration(textBox, textBox.Text);
+                // You're still free to subscribe to these events
+                // in other places for different purposes.
+                textBox.TextChanged += (sender, e) => 
+                    SaveConfiguration(textBox, textBox.Text);
             }
             else if (control is NumericUpDown numeric)
             {
-                numeric.ValueChanged += (sender, e) => SaveConfiguration(numeric, numeric.Value);
+                numeric.ValueChanged += (sender, e) => 
+                    SaveConfiguration(numeric, numeric.Value);
             }
             else if (control is ComboBox comboBox)
             {
-                comboBox.SelectionChangeCommitted += (sender, e) => SaveConfiguration(comboBox, comboBox.SelectedIndex);
+                comboBox.SelectionChangeCommitted += (sender, e) => 
+                    SaveConfiguration(comboBox, comboBox.SelectedIndex);
             }
             else if (control is TrackBar trackBar)
             {
-                trackBar.ValueChanged += (sender, e) => SaveConfiguration(trackBar, trackBar.Value);
+                trackBar.ValueChanged += (sender, e) =>
+                    SaveConfiguration(trackBar, trackBar.Value);
             }
             else if (control is CheckBox checkBox)
             {
-                checkBox.CheckedChanged += (sender, e) => SaveConfiguration(checkBox, checkBox.Checked);
-            }
-        }
-    }
-    IEnumerable<Control> IterateControls(Control.ControlCollection controls)
-    {
-        foreach (Control control in controls)
-        {
-            yield return control;
-            foreach (Control child in IterateControls(control.Controls))
-            {
-                yield return child;
+                checkBox.CheckedChanged += (sender, e) => 
+                    SaveConfiguration(checkBox, checkBox.Checked);
             }
         }
     }
 ```
+
 
 **Save individual control changes**
 

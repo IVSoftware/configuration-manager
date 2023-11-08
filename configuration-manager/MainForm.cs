@@ -86,23 +86,30 @@ namespace configuration_manager
             {
                 if (control is TextBox textBox)
                 {
-                    textBox.TextChanged += (sender, e) => SaveConfiguration(textBox, textBox.Text);
+                    // You're still free to subscribe to these events
+                    // in other places for different purposes.
+                    textBox.TextChanged += (sender, e) => 
+                        SaveConfiguration(textBox, textBox.Text);
                 }
                 else if (control is NumericUpDown numeric)
                 {
-                    numeric.ValueChanged += (sender, e) => SaveConfiguration(numeric, numeric.Value);
+                    numeric.ValueChanged += (sender, e) => 
+                        SaveConfiguration(numeric, numeric.Value);
                 }
                 else if (control is ComboBox comboBox)
                 {
-                    comboBox.SelectionChangeCommitted += (sender, e) => SaveConfiguration(comboBox, comboBox.SelectedIndex);
+                    comboBox.SelectionChangeCommitted += (sender, e) => 
+                        SaveConfiguration(comboBox, comboBox.SelectedIndex);
                 }
                 else if (control is TrackBar trackBar)
                 {
-                    trackBar.ValueChanged += (sender, e) => SaveConfiguration(trackBar, trackBar.Value);
+                    trackBar.ValueChanged += (sender, e) =>
+                        SaveConfiguration(trackBar, trackBar.Value);
                 }
                 else if (control is CheckBox checkBox)
                 {
-                    checkBox.CheckedChanged += (sender, e) => SaveConfiguration(checkBox, checkBox.Checked);
+                    checkBox.CheckedChanged += (sender, e) => 
+                        SaveConfiguration(checkBox, checkBox.Checked);
                 }
             }
         }
