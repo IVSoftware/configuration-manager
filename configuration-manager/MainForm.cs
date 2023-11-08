@@ -8,7 +8,8 @@ namespace configuration_manager
         string configPath { get; } =
             Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                Assembly.GetEntryAssembly().GetName().Name);
+                Assembly.GetEntryAssembly().GetName().Name,
+                "config.json");
         public MainForm()
         {
             InitializeComponent();
