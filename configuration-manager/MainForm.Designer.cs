@@ -30,16 +30,16 @@
         {
             textBox = new TextBox();
             checkBox = new CheckBox();
-            numericUpDown1 = new NumericUpDown();
-            trackBar1 = new TrackBar();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
+            numericUpDown = new NumericUpDown();
+            trackBar = new TrackBar();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar).BeginInit();
             SuspendLayout();
             // 
             // textBox
             // 
             textBox.Location = new Point(30, 35);
-            textBox.Margin = new Padding(4, 4, 4, 4);
+            textBox.Margin = new Padding(4);
             textBox.Name = "textBox";
             textBox.Size = new Size(331, 39);
             textBox.TabIndex = 0;
@@ -54,36 +54,36 @@
             checkBox.Text = "Checked";
             checkBox.UseVisualStyleBackColor = true;
             // 
-            // numericUpDown1
+            // numericUpDown
             // 
-            numericUpDown1.Location = new Point(385, 36);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(81, 39);
-            numericUpDown1.TabIndex = 2;
-            numericUpDown1.TextAlign = HorizontalAlignment.Center;
+            numericUpDown.Location = new Point(385, 36);
+            numericUpDown.Name = "numericUpDown";
+            numericUpDown.Size = new Size(81, 39);
+            numericUpDown.TabIndex = 2;
+            numericUpDown.TextAlign = HorizontalAlignment.Center;
             // 
-            // trackBar1
+            // trackBar
             // 
-            trackBar1.Location = new Point(30, 140);
-            trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(331, 69);
-            trackBar1.TabIndex = 3;
+            trackBar.Location = new Point(30, 140);
+            trackBar.Name = "trackBar";
+            trackBar.Size = new Size(331, 69);
+            trackBar.TabIndex = 3;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(478, 244);
-            Controls.Add(trackBar1);
-            Controls.Add(numericUpDown1);
+            Controls.Add(trackBar);
+            Controls.Add(numericUpDown);
             Controls.Add(checkBox);
             Controls.Add(textBox);
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "MainForm";
             Text = "Main Form";
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -92,7 +92,7 @@
 
         private TextBox textBox;
         private CheckBox checkBox;
-        private NumericUpDown numericUpDown1;
-        private TrackBar trackBar1;
+        private NumericUpDown numericUpDown;
+        private TrackBar trackBar;
     }
 }
