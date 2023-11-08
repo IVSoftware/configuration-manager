@@ -32,13 +32,14 @@
             checkBox = new CheckBox();
             numericUpDown = new NumericUpDown();
             trackBar = new TrackBar();
+            comboBox1 = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)numericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar).BeginInit();
             SuspendLayout();
             // 
             // textBox
             // 
-            textBox.Location = new Point(30, 35);
+            textBox.Location = new Point(65, 35);
             textBox.Margin = new Padding(4);
             textBox.Name = "textBox";
             textBox.Size = new Size(331, 39);
@@ -47,7 +48,7 @@
             // checkBox
             // 
             checkBox.AutoSize = true;
-            checkBox.Location = new Point(30, 81);
+            checkBox.Location = new Point(65, 81);
             checkBox.Name = "checkBox";
             checkBox.Size = new Size(132, 36);
             checkBox.TabIndex = 1;
@@ -56,7 +57,7 @@
             // 
             // numericUpDown
             // 
-            numericUpDown.Location = new Point(385, 36);
+            numericUpDown.Location = new Point(315, 81);
             numericUpDown.Name = "numericUpDown";
             numericUpDown.Size = new Size(81, 39);
             numericUpDown.TabIndex = 2;
@@ -64,16 +65,26 @@
             // 
             // trackBar
             // 
-            trackBar.Location = new Point(30, 140);
+            trackBar.Location = new Point(65, 140);
             trackBar.Name = "trackBar";
             trackBar.Size = new Size(331, 69);
             trackBar.TabIndex = 3;
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Apple", "Orange", "Banana" });
+            comboBox1.Location = new Point(59, 192);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(337, 40);
+            comboBox1.TabIndex = 4;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(478, 244);
+            Controls.Add(comboBox1);
             Controls.Add(trackBar);
             Controls.Add(numericUpDown);
             Controls.Add(checkBox);
@@ -94,5 +105,6 @@
         private CheckBox checkBox;
         private NumericUpDown numericUpDown;
         private TrackBar trackBar;
+        private ComboBox comboBox1;
     }
 }

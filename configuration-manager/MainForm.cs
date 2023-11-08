@@ -12,12 +12,20 @@ namespace configuration_manager
         public MainForm()
         {
             InitializeComponent();
+            // Restore values BEFORE subscribing to events
             LoadConfiguration();
+            // NOW you can safely subscribe.
             SubscribeToEvents();
         }
+        Dictionary<string, object> ConfigurationHelper { get; set; }
+        private void SaveConfiguration(Control control, object value)
+        {
+            ConfigurationHelper[control.Name] = value.ToString();
+            // Save every change OR: - Save on app close? - Save after time delay (consolidate rapid changes)?
+            File.WriteAllText(configPath, JsonConvert.SerializeObject(ConfigurationHelper));
+        }
         private void LoadConfiguration()
-        {   
-            // Restore values BEFORE subscribing to events
+        {
             if (File.Exists(configPath))
             {
                 ConfigurationHelper =
@@ -35,7 +43,7 @@ namespace configuration_manager
                 {
                     if (control is TextBox textBox)
                     {
-                        if(ConfigurationHelper.TryGetValue(key, out var value))
+                        if (ConfigurationHelper.TryGetValue(key, out var value))
                         {
                             textBox.Text = value.ToString();
                         }
@@ -97,13 +105,6 @@ namespace configuration_manager
                 }
             }
         }
-        private void SaveConfiguration(Control control, object value)
-        {
-            ConfigurationHelper[control.Name] = value.ToString();
-            // Save every change OR: - Save on app close? - Save after time delay (consolidate rapid changes)?
-            File.WriteAllText(configPath, JsonConvert.SerializeObject(ConfigurationHelper));
-        }
-        Dictionary<string, object> ConfigurationHelper { get; set; }
         IEnumerable<Control> IterateControls(Control.ControlCollection controls)
         {
             foreach (Control control in controls)
